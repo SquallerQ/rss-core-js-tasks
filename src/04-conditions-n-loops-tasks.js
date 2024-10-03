@@ -491,8 +491,8 @@ function isBracketsBalanced(num) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -508,8 +508,39 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const splitArray = pathes.map((item) => item.split('/'));
+
+  const newArray = [];
+  const slashArray = [];
+
+  if (pathes.length === 2) {
+    for (let i = 0; i < splitArray[0].length; i += 1) {
+      if (splitArray[0][i] === splitArray[1][i]) {
+        newArray.push(splitArray[0][i]);
+      }
+    }
+  }
+
+  if (pathes.length === 3) {
+    for (let i = 0; i < splitArray[0].length; i += 1) {
+      if ((splitArray[0][i] === splitArray[1][i]) === splitArray[2][i]) {
+        newArray.push(splitArray[0][i]);
+      }
+    }
+  }
+
+  for (let i = 0; i < pathes.length; i += 1) {
+    slashArray.push(pathes[i][0]);
+  }
+  const clearSlashArray = slashArray.filter((item) => item === '/');
+  if (newArray < 1) {
+    if (clearSlashArray.length === pathes.length) {
+      return '/';
+    }
+    return '';
+  }
+  return `${newArray.join('/')}/`;
 }
 
 
