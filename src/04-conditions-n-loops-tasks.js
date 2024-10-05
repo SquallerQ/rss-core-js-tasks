@@ -27,8 +27,15 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return 'FizzBuzz';
+  } if (num % 5 === 0) {
+    return 'Buzz';
+  } if (num % 3 === 0) {
+    return 'Fizz';
+  }
+  return num;
 }
 
 
@@ -562,8 +569,62 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  function createNewMatrixElement(matrix, row, col) {
+    if (matrix[row]) {
+      if (matrix[row][col] !== undefined) {
+        return matrix[row][col];
+      }
+      return 0;
+    }
+    return 0;
+  }
+
+  const a1 = createNewMatrixElement(m1, 0, 0);
+  const a2 = createNewMatrixElement(m1, 0, 1);
+  const a3 = createNewMatrixElement(m1, 0, 2);
+
+  const a4 = createNewMatrixElement(m1, 1, 0);
+  const a5 = createNewMatrixElement(m1, 1, 1);
+  const a6 = createNewMatrixElement(m1, 1, 2);
+
+  const a7 = createNewMatrixElement(m1, 2, 0);
+  const a8 = createNewMatrixElement(m1, 2, 1);
+  const a9 = createNewMatrixElement(m1, 2, 2);
+
+  const b1 = createNewMatrixElement(m2, 0, 0);
+  const b2 = createNewMatrixElement(m2, 0, 1);
+  const b3 = createNewMatrixElement(m2, 0, 2);
+
+  const b4 = createNewMatrixElement(m2, 1, 0);
+  const b5 = createNewMatrixElement(m2, 1, 1);
+  const b6 = createNewMatrixElement(m2, 1, 2);
+
+  const b7 = createNewMatrixElement(m2, 2, 0);
+  const b8 = createNewMatrixElement(m2, 2, 1);
+  const b9 = createNewMatrixElement(m2, 2, 2);
+
+  const c1 = a1 * b1 + a2 * b4 + a3 * b7;
+  const c2 = a1 * b2 + a2 * b5 + a3 * b8;
+  const c3 = a1 * b3 + a2 * b6 + a3 * b9;
+
+  const c4 = a4 * b1 + a5 * b4 + a6 * b7;
+  const c5 = a4 * b2 + a5 * b5 + a6 * b8;
+  const c6 = a4 * b3 + a5 * b6 + a6 * b9;
+
+  const c7 = a7 * b1 + a8 * b4 + a9 * b7;
+  const c8 = a7 * b2 + a8 * b5 + a9 * b8;
+  const c9 = a7 * b3 + a8 * b6 + a9 * b9;
+
+  const sumMatrix = [
+    [c1, c2, c3],
+    [c4, c5, c6],
+    [c7, c8, c9],
+  ];
+
+  const matrixWithoutZero = sumMatrix.map((matrix) => matrix.filter((item) => item !== 0));
+  const result = matrixWithoutZero.filter((item) => item.length > 0);
+  return result;
 }
 
 
@@ -597,8 +658,28 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const a1 = position[0][0];
+  const a2 = position[0][1];
+  const a3 = position[0][2];
+  const a4 = position[1][0];
+  const a5 = position[1][1];
+  const a6 = position[1][2];
+  const a7 = position[2][0];
+  const a8 = position[2][1];
+  const a9 = position[2][2];
+
+  if (a1 === a2 && a2 === a3 && a1 !== undefined) return a1;
+  if (a4 === a5 && a5 === a6 && a4 !== undefined) return a4;
+  if (a7 === a8 && a8 === a9 && a7 !== undefined) return a7;
+
+  if (a1 === a4 && a4 === a7 && a1 !== undefined) return a1;
+  if (a2 === a5 && a5 === a8 && a2 !== undefined) return a2;
+  if (a3 === a6 && a6 === a9 && a3 !== undefined) return a3;
+
+  if (a1 === a5 && a5 === a9 && a1 !== undefined) return a1;
+  if (a3 === a5 && a5 === a7 && a3 !== undefined) return a3;
+  return undefined;
 }
 
 
