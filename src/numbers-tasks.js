@@ -123,10 +123,8 @@ function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
  *     5     => 5
  *     0     => 0
  */
-function getLastDigit(/* value */) {
-  throw new Error('Not implemented');
-  // const toString = value.toString();
-  // return toString[toString.length - 1];
+function getLastDigit(value) {
+  return value % 10;
 }
 
 /**
@@ -181,7 +179,7 @@ function getParallelepipedDiagonal(a, b, c) {
 function roundToPowerOfTen(num, pow) {
   const string = num.toString();
   const reverse = string.split('').reverse();
-  const resultArray = reverse.map(function (item, index) {
+  const resultArray = reverse.map((item, index) => {
     if (index + 1 >= pow) {
       if (index + 1 === pow) {
         if (item > 5) {
@@ -193,7 +191,7 @@ function roundToPowerOfTen(num, pow) {
     }
     return 0;
   });
-  resultArray.find(function (item, index) {
+  resultArray.find((item, index) => {
     if (item === 'a') {
       resultArray[index + 1] = +resultArray[index + 1] + 1;
       resultArray[index] = 0;
@@ -240,8 +238,11 @@ function isPrime(/* n */) {
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-function toNumber(/* value, def */) {
-  throw new Error('Not implemented');
+function toNumber(value, def) {
+  if (Number.isNaN(Number(value))) {
+    return def;
+  }
+  return +value;
 }
 
 /**
@@ -370,8 +371,8 @@ function numberToStringInBase(number, base) {
  * @example:
  * 12345, 2    => '1.23e+4'
  */
-function toExponential(/* number, fractionDigits */) {
-  throw new Error('Not implemented');
+function toExponential(number, fractionDigits) {
+  return number.toExponential(fractionDigits);
 }
 
 /**
@@ -385,8 +386,8 @@ function toExponential(/* number, fractionDigits */) {
  * 12345, 2    => '12345.00'
  * 12.345, 1   => '12.3'
  */
-function toFixed(/* number, fractionDigits */) {
-  throw new Error('Not implemented');
+function toFixed(number, fractionDigits) {
+  return number.toFixed(fractionDigits);
 }
 
 /**
@@ -401,8 +402,8 @@ function toFixed(/* number, fractionDigits */) {
  * 12345, 7    => '12345.00'
  * 12.345, 4   => '12.35'
  */
-function toPrecision(/* number, precision */) {
-  throw new Error('Not implemented');
+function toPrecision(number, precision) {
+  return number.toPrecision(precision);
 }
 
 /**
@@ -416,7 +417,7 @@ function toPrecision(/* number, precision */) {
  * Number(-5)    => -5
  */
 function getNumberValue(number) {
-  return +number;
+  return number.valueOf();
 }
 
 /**
@@ -593,8 +594,8 @@ function getSumOfNumbers(x1, x2, x3) {
  * -5, -6 => -5
  * 0, 5   => 5
  */
-function getMaxNumber(/* firstNumber, secondNumber */) {
-  throw new Error('Not implemented');
+function getMaxNumber(firstNumber, secondNumber) {
+  return Math.max(firstNumber, secondNumber);
 }
 
 /**
@@ -609,8 +610,8 @@ function getMaxNumber(/* firstNumber, secondNumber */) {
  * -5, 0 => -5 | -4 | -3 | -2 | -1 | 0
  * -1, 1 => -1 | 0 | 1
  */
-function getRandomInteger(/* min, max */) {
-  throw new Error('Not implemented');
+function getRandomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -623,8 +624,8 @@ function getRandomInteger(/* min, max */) {
  * @example:
  * 3, 4 => 5
  */
-function getHypotenuse(/* a, b */) {
-  throw new Error('Not implemented');
+function getHypotenuse(a, b) {
+  return Math.hypot(a, b);
 }
 
 /**
@@ -640,8 +641,18 @@ function getHypotenuse(/* a, b */) {
  * 10 => 5
  * 15 => 8
  */
-function getCountOfOddNumbers(/* number */) {
-  throw new Error('Not implemented');
+function getCountOfOddNumbers(number) {
+  let count = 0;
+  const array = [];
+  for (let i = 0; i < Math.abs(number) + 1; i += 1) {
+    array.push(i);
+  }
+  for (let i = 0; i < array.length; i += 1) {
+    if (array[i] % 2 === 1) {
+      count += 1;
+    }
+  }
+  return count;
 }
 
 module.exports = {
