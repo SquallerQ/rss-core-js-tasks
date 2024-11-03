@@ -85,8 +85,8 @@ function getDistanceBetweenPoints(x1, y1, x2, y2) {
  *   x + 8 = 0       => -8
  *   5*x = 0         => 0
  */
-function getLinearEquationRoot(/* a, b */) {
-  throw new Error('Not implemented');
+function getLinearEquationRoot(a, b) {
+  return -b / a;
 }
 
 /**
@@ -273,8 +273,21 @@ function getCube(num) {
  *   3  => 2
  *   10 => 55
  */
-function getFibonacciNumber(/* index */) {
-  throw new Error('Not implemented');
+function getFibonacciNumber(index) {
+  if (index === 0) {
+    return 0;
+  }
+  const array = [1, 1];
+  let first = 1;
+  let second = 1;
+  let sum;
+  for (let i = 0; i < index; i += 1) {
+    sum = first + second;
+    array.push(sum);
+    first = second;
+    second = sum;
+  }
+  return array[array.length - 3];
 }
 
 /**
