@@ -20,8 +20,24 @@
  *    getIntervalArray(0, 100) => [ 0, 1, 2, ..., 100 ]
  *    getIntervalArray(3, 3) => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  if (start === end) {
+    return [start];
+  }
+  let count = '';
+  if (start < 0 && end < 0) {
+    count = Math.abs(start) - Math.abs(end);
+  } else if ((start > 0 && end < 0) || (start < 0 && end > 0)) {
+    count = Math.abs(start) + Math.abs(end);
+  } else {
+    count = end - start;
+  }
+  const res = Array.from({ length: count }, (value, index) => {
+    return start + index;
+  });
+  res.push(end);
+
+  return res;
 }
 
 /**
@@ -471,8 +487,9 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  const sortedArray = arr.sort((a, b) => b - a);
+  return sortedArray.slice(0, n);
 }
 
 /**
@@ -487,8 +504,17 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  const resultArray = [];
+  arr1.map((item) => {
+    if (arr2.includes(item)) {
+      resultArray.push(item);
+      return item;
+    }
+    return item;
+  });
+
+  return resultArray;
 }
 
 /**
@@ -502,8 +528,27 @@ function findCommonElements(/* arr1, arr2 */) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => longest is [3, 10] and [1, 20] => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => longest is [7, 40, 80] => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let resultMaximumLength = 0;
+  let maxLengthCurrent = 0;
+  let currentLength = 0;
+
+  let actualItem = 0;
+  nums.map((item) => {
+    if (item > actualItem) {
+      currentLength += 1;
+    } else {
+      maxLengthCurrent = currentLength;
+      currentLength = 1;
+    }
+    if (maxLengthCurrent > resultMaximumLength) {
+      resultMaximumLength = maxLengthCurrent;
+    }
+    actualItem = item;
+    resultMaximumLength = Math.max(resultMaximumLength, currentLength);
+    return resultMaximumLength;
+  });
+  return resultMaximumLength;
 }
 
 /**
@@ -577,8 +622,25 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length % 2 === 0) {
+    const center = arr.length / 2;
+    const firstPart = arr.slice(0, center);
+    const secondPart = arr.slice(center, arr.length);
+
+    return secondPart.concat(firstPart);
+  }
+  const secondPart = Math.floor(arr.length / 2);
+  const firstPart = arr.slice(0, secondPart);
+  let lastPart = '';
+  if (arr.length % 2 === 0) {
+    lastPart = arr.slice(secondPart, arr.length);
+  } else {
+    lastPart = arr.slice(secondPart + 1, arr.length);
+  }
+  lastPart.push(secondPart + 1);
+  lastPart.push(firstPart);
+  return lastPart.flat();
 }
 
 module.exports = {
