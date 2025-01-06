@@ -323,8 +323,24 @@ function getIndexOf(str, letter) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  let result = false;
+
+  let numToString = '';
+  let digitToString = '';
+
+  for (let i = 0; i < 1; i += 1) {
+    numToString += num;
+    digitToString += digit;
+  }
+
+  for (let i = 0; i < numToString.length; i += 1) {
+    if (numToString[i] === digitToString) {
+      result = true;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -340,8 +356,32 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  if (arr.length < 3) {
+    return -1;
+  }
+  let result = -1;
+  let sumLeft = 0;
+  const arrayForLeftSums = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    arrayForLeftSums[i] = sumLeft;
+    sumLeft += arr[i];
+  }
+
+  let sumRight = 0;
+  const arrayForRightSums = [];
+  for (let i = arr.length - 1; i >= 0; i -= 1) {
+    arrayForRightSums[i] = sumRight;
+    sumRight += arr[i];
+  }
+
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arrayForLeftSums[i] === arrayForRightSums[i]) {
+      result = i;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -365,8 +405,44 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = [];
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+    for (let j = 0; j < size; j += 1) {
+      matrix[i][j] = 0;
+    }
+  }
+  function createSpiralMatrix(start, end, current) {
+    if (start > end) {
+      return current;
+    }
+
+    let currentNumber = current;
+
+    for (let i = start; i <= end; i += 1) {
+      matrix[start][i] = currentNumber;
+      currentNumber += 1;
+    }
+    for (let i = start + 1; i <= end; i += 1) {
+      matrix[i][end] = currentNumber;
+      currentNumber += 1;
+    }
+    for (let i = end - 1; i >= start; i -= 1) {
+      matrix[end][i] = currentNumber;
+      currentNumber += 1;
+    }
+    for (let i = end - 1; i > start; i -= 1) {
+      matrix[i][start] = currentNumber;
+      currentNumber += 1;
+    }
+
+    return createSpiralMatrix(start + 1, end - 1, currentNumber);
+  }
+
+  createSpiralMatrix(0, size - 1, 1);
+
+  return matrix;
 }
 
 /**
@@ -384,8 +460,28 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const matrix1 = matrix;
+  const n = matrix.length;
+
+  const flattenedMatrix = new Array(n * n);
+  let index = 0;
+  for (let col = 0; col < n; col += 1) {
+    for (let row = n - 1; row >= 0; row -= 1) {
+      flattenedMatrix[index] = matrix[row][col];
+      index += 1;
+    }
+  }
+
+  let rowIndex = 0;
+  for (let i = 0; i < n; i += 1) {
+    for (let j = 0; j < n; j += 1) {
+      matrix1[i][j] = flattenedMatrix[rowIndex];
+      rowIndex += 1;
+    }
+  }
+
+  return matrix;
 }
 
 /**
