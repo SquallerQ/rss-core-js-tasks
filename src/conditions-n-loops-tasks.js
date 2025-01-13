@@ -498,8 +498,30 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const arr1 = arr;
+  if (arr1.length <= 1) {
+    return arr1;
+  }
+  const middleElement = arr[0];
+  const leftPart = [];
+  const rightPart = [];
+
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] < middleElement) {
+      leftPart[leftPart.length] = arr[i];
+    } else {
+      rightPart[rightPart.length] = arr[i];
+    }
+  }
+  const sortedLeft = sortByAsc(leftPart);
+  const sortedRight = sortByAsc(rightPart);
+
+  const newArray = [...sortedLeft, middleElement, ...sortedRight];
+  for (let i = 0; i < arr1.length; i += 1) {
+    arr1[i] = newArray[i];
+  }
+  return arr;
 }
 
 /**
@@ -519,8 +541,39 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  const original = str;
+  let copyStr = str;
+  let cycleLength = 0;
+
+  function oneShuffle(input) {
+    let evenChars = '';
+    let oddChars = '';
+
+    for (let i = 0; i < input.length; i += 1) {
+      if (i % 2 === 0) {
+        evenChars += input[i];
+      } else {
+        oddChars += input[i];
+      }
+    }
+    return evenChars + oddChars;
+  }
+
+  const maxShuffles = 50;
+  while (cycleLength < maxShuffles) {
+    copyStr = oneShuffle(copyStr);
+    cycleLength += 1;
+    if (copyStr === original) {
+      break;
+    }
+  }
+  const optimizedIterations = iterations % cycleLength;
+  for (let i = 0; i < optimizedIterations; i += 1) {
+    copyStr = oneShuffle(copyStr);
+  }
+
+  return copyStr;
 }
 
 /**
@@ -540,8 +593,60 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const digits = [];
+  let remainingNumber = number;
+
+  while (remainingNumber > 0) {
+    digits.unshift(remainingNumber % 10);
+    remainingNumber = Math.floor(remainingNumber / 10);
+  }
+
+  let swapIndex = -1;
+  for (let i = digits.length - 2; i >= 0; i -= 1) {
+    if (digits[i] < digits[i + 1]) {
+      swapIndex = i;
+      break;
+    }
+  }
+
+  if (swapIndex === -1) return number;
+
+  let smallestLargerDigitIndex = swapIndex + 1;
+  for (let j = swapIndex + 1; j < digits.length; j += 1) {
+    if (
+      digits[j] > digits[swapIndex] &&
+      digits[j] < digits[smallestLargerDigitIndex]
+    ) {
+      smallestLargerDigitIndex = j;
+    }
+  }
+
+  const swapValue = digits[swapIndex];
+  digits[swapIndex] = digits[smallestLargerDigitIndex];
+  digits[smallestLargerDigitIndex] = swapValue;
+
+  const rightPart = [];
+  for (let i = swapIndex + 1; i < digits.length; i += 1) {
+    rightPart.push(digits[i]);
+  }
+
+  rightPart.sort((a, b) => a - b);
+
+  const finalDigits = [];
+  for (let i = 0; i <= swapIndex; i += 1) {
+    finalDigits.push(digits[i]);
+  }
+  for (let i = 0; i < rightPart.length; i += 1) {
+    finalDigits.push(rightPart[i]);
+  }
+
+  let result = 0;
+  for (let i = 0; i < finalDigits.length; i += 1) {
+    result = result * 10 + finalDigits[i];
+  }
+
+  return result;
 }
 
 module.exports = {
