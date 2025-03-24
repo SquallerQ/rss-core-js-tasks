@@ -298,8 +298,41 @@ function getQuarter(date) {
  * { start: '01-01-2024', end: '15-01-2024' }, 1, 3 => ['01-01-2024', '05-01-2024', '09-01-2024', '13-01-2024']
  * { start: '01-01-2024', end: '10-01-2024' }, 1, 1 => ['01-01-2024', '03-01-2024', '05-01-2024', '07-01-2024', '09-01-2024']
  */
-function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
-  throw new Error('Not implemented');
+function getWorkSchedule(period, countWorkDays, countOffDays) {
+  const schedule = [];
+  const [startDay, startMonth, startYear] = period.start.split('-').map(Number);
+  const [endDay, endMonth, endYear] = period.end.split('-').map(Number);
+
+  let currentDate = new Date(startYear, startMonth - 1, startDay);
+  const endDate = new Date(endYear, endMonth - 1, endDay);
+
+  let isWorking = true;
+  let daysCounter = 0;
+
+  while (currentDate <= endDate) {
+    if (isWorking) {
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      schedule.push(`${day}-${month}-${currentDate.getFullYear()}`);
+
+      daysCounter += 1;
+      if (daysCounter === countWorkDays) {
+        isWorking = false;
+        daysCounter = 0;
+      }
+    } else {
+      daysCounter += 1;
+      if (daysCounter === countOffDays) {
+        isWorking = true;
+        daysCounter = 0;
+      }
+    }
+
+    currentDate = new Date(currentDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return schedule;
 }
 
 /**
@@ -314,8 +347,14 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
  * Date(2022, 2, 1) => false
  * Date(2020, 2, 1) => true
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = date.getFullYear();
+  const divisibleBy4 = year % 4 === 0;
+  const divisibleBy100 = year % 100 === 0;
+  const divisibleBy400 = year % 400 === 0;
+  const isLeap = (divisibleBy4 && !divisibleBy100) || divisibleBy400;
+
+  return isLeap;
 }
 
 module.exports = {
