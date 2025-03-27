@@ -53,8 +53,14 @@ function getFunctionBody(func) {
  *  ]) => [0, 1, 2]
  *
  */
-function getArgumentsCount(/* funcs */) {
-  throw new Error('Not implemented');
+function getArgumentsCount(funcs) {
+  const argsLength = funcs.length;
+  const array = [];
+  for (let i = 0; i < argsLength; i += 1) {
+    array.push(i);
+  }
+
+  return array;
 }
 
 /**
@@ -108,8 +114,14 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  let cache = null;
+  return function c() {
+    if (cache === null) {
+      cache = func();
+    }
+    return cache;
+  };
 }
 
 /**
@@ -127,8 +139,18 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return function attemptNumber() {
+    let lastError;
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        return func();
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError;
+  };
 }
 
 /**
@@ -154,8 +176,15 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return function log(...args) {
+    const funcName = func.name;
+    const argsToString = args.map((arg) => JSON.stringify(arg)).join(',');
+    logFunc(`${funcName}(${argsToString}) starts`);
+    const result = func(...args);
+    logFunc(`${funcName}(${argsToString}) ends`);
+    return result;
+  };
 }
 
 /**
