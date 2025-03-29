@@ -90,8 +90,13 @@ async function getFirstResolvedPromiseResult(promises) {
  * [promise3, promise6, promise2] => Promise rejected with 2
  * [promise3, promise4, promise6] => Promise rejected with 6
  */
-function getFirstPromiseResult(/* promises */) {
-  throw new Error('Not implemented');
+async function getFirstPromiseResult(promises) {
+  try {
+    const result = await Promise.race(promises);
+    return result;
+  } catch {
+    throw new Error('Error');
+  }
 }
 
 /**
@@ -105,8 +110,9 @@ function getFirstPromiseResult(/* promises */) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)] => Promise rejected with 2
  */
-function getAllOrNothing(/* promises */) {
-  throw new Error('Not implemented');
+async function getAllOrNothing(promises) {
+  const result = await Promise.all(promises);
+  return result;
 }
 
 /**
