@@ -27,3 +27,5 @@ It contains tasks from Core JS modules, Basic JS, and additional small exercises
 - [Towel Sort](./basic-js-towel-sort)
 - [Reverse Int](./basic-js-reverse-int)
 - [Human Readable Number](./basic-js-human-readable-number)
+- [Morse Decoder](./morse-decoder)
+- [Guessing Game](./guessing-game)
